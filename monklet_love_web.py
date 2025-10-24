@@ -2,9 +2,8 @@ import streamlit as st
 import time
 import random
 
-st.set_page_config(page_title="Love for Monklet 💖", page_icon="💌", layout="centered")
+st.set_page_config(page_title="Love for Monklet 💖", page_icon="💌", layout="wide")
 
-# 🌸 Background and glow styling
 page_bg = """
 <style>
 [data-testid="stAppViewContainer"] {
@@ -15,7 +14,6 @@ page_bg = """
 [data-testid="stHeader"], [data-testid="stToolbar"] {
     background: rgba(255, 255, 255, 0);
 }
-
 .typing {
     font-size: 32px;
     color: #fff;
@@ -25,7 +23,6 @@ page_bg = """
     min-height: 120px;
     font-weight: bold;
 }
-
 .heart {
     font-size: 90px;
     text-align: center;
@@ -36,7 +33,6 @@ page_bg = """
     50% { transform: scale(1.3); color: #ff1493; }
     100% { transform: scale(1); color: #ff66b2; }
 }
-
 .rainbow {
     text-align: center;
     font-size: 45px;
@@ -50,7 +46,6 @@ page_bg = """
     0% { text-shadow: 0 0 20px #ff69b4; }
     100% { text-shadow: 0 0 40px #ff1493; }
 }
-
 h1 {
     text-align: center;
     color: #fff !important;
@@ -58,7 +53,6 @@ h1 {
     font-size: 50px !important;
     margin-top: 30px;
 }
-
 .floating-heart {
     position: fixed;
     font-size: 25px;
@@ -70,39 +64,42 @@ h1 {
     0% { transform: translateY(100vh) scale(1); opacity: 1; }
     100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
 }
+.fade-in {
+    animation: fadeIn 2s ease-in forwards;
+    opacity: 0;
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 </style>
 """
-st.markdown(page_bg, unsafe_allow_html=True)
 
-# 💗 Floating hearts
 hearts_html = ""
 for i in range(20):
     left = random.randint(0, 100)
     delay = round(random.uniform(0, 10), 1)
     duration = random.randint(8, 18)
-    size = random.randint(18, 30)
     color = random.choice(["#ffb6c1", "#ff69b4", "#ff1493", "#ffc0cb"])
     hearts_html += f"<div class='floating-heart' style='left:{left}%; animation-delay:{delay}s; animation-duration:{duration}s; color:{color};'>💖</div>"
 
-st.markdown(hearts_html, unsafe_allow_html=True)
-
-# 💌 Title
+st.markdown(page_bg + hearts_html, unsafe_allow_html=True)
 st.markdown("<h1>💖 Love Program for My Monklet 💖</h1>", unsafe_allow_html=True)
 
-# 🌹 Three columns: Left video, text, Right video
-col1, col2, col3 = st.columns([1, 2, 1])
+col1, col2, col3 = st.columns([1.5, 2, 1.5])
 
-# 🎞️ Add autoplaying, looping, muted videos on both sides
-left_video_html = """
-<video autoplay muted loop playsinline style="width:100%; border-radius:20px; box-shadow:0 0 25px #ff69b4;">
-  <source src="left_clip.mp4" type="video/mp4">
-  Your browser does not support the video tag.
+left_video_url = "https://github.com/keengdavid01-del/monklet-love2/blob/main/left_clip.mp4"
+right_video_url = "https://github.com/keengdavid01-del/monklet-love2/blob/main/right_clip.mp4"
+
+left_video_html = f"""
+<video autoplay loop playsinline class="fade-in" style="width:100%; border-radius:20px; box-shadow:0 0 25px #ff69b4;" controls>
+  <source src="{left_video_url}" type="video/mp4">
 </video>
 """
-right_video_html = """
-<video autoplay muted loop playsinline style="width:100%; border-radius:20px; box-shadow:0 0 25px #ff69b4;">
-  <source src="right_clip.mp4" type="video/mp4">
-  Your browser does not support the video tag.
+
+right_video_html = f"""
+<video autoplay loop playsinline class="fade-in" style="width:100%; border-radius:20px; box-shadow:0 0 25px #ff69b4;" controls>
+  <source src="{right_video_url}" type="video/mp4">
 </video>
 """
 
@@ -112,16 +109,14 @@ with col1:
 with col3:
     st.markdown(right_video_html, unsafe_allow_html=True)
 
-# 💞 Center typing section
 with col2:
     placeholder = st.empty()
-
     def type_text(text, speed=0.035):
         typed = ""
         for char in text:
             typed += char
             placeholder.markdown(f"<div class='typing'>{typed}</div>", unsafe_allow_html=True)
-            time.sleep(speed + random.uniform(0, 0.015))
+            time.sleep(speed + random.uniform(0,0.015))
         time.sleep(0.6)
 
     messages = [
